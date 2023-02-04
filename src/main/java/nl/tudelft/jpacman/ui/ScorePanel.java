@@ -72,6 +72,8 @@ public class ScorePanel extends JPanel {
             String score = "";
             if (!player.isAlive()) {
                 score = "You died. ";
+            } else {
+                score = "Lives: " + player.getLives() + " ";
             }
             score += scoreFormatter.format(player);
             entry.getValue().setText(score);
