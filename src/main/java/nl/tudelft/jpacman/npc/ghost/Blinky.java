@@ -65,7 +65,7 @@ public class Blinky extends Ghost {
         if (hasSquare()) {
 
             Optional<Direction> empty = findNearestAndShortest();
-            if (empty != null) return empty;
+            if (empty.isPresent()) return empty;
         }
         return Optional.empty();
     }
@@ -82,6 +82,6 @@ public class Blinky extends Ghost {
         if (path != null && !path.isEmpty()) {
             return Optional.ofNullable(path.get(0));
         }
-        return null;
+        return Optional.empty();
     }
 }

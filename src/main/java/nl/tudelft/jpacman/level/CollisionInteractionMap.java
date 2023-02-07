@@ -73,7 +73,7 @@ public class CollisionInteractionMap implements CollisionMap {
         CollisionHandler<C1, C2> handler) {
         addHandler(collider, collidee, handler);
         if (symetric) {
-            addHandler(collidee, collider, new InverseCollisionHandler<>(handler));
+            addHandler(collider, collidee, new InverseCollisionHandler<>(handler));
         }
     }
 
@@ -243,8 +243,8 @@ public class CollisionInteractionMap implements CollisionMap {
          * it compatible with the initial collision.
          */
         @Override
-        public void handleCollision(C1 collider, C2 collidee) {
-            handler.handleCollision(collidee, collider);
+        public void handleCollision(C1 collidee, C2 collider) {
+            handler.handleCollision(collider, collidee);
         }
     }
 

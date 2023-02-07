@@ -36,7 +36,9 @@ public class BoardFactory {
      * @return A new board, wrapping a grid of connected cells.
      */
     public Board createBoard(Square[][] grid) {
-        assert grid != null;
+        if (grid == null) {
+            throw new IllegalArgumentException("Grid is null!");
+        }
 
         Board board = new Board(grid);
 
@@ -44,17 +46,20 @@ public class BoardFactory {
         int height = board.getHeight();
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                Square square = grid[x][y];
-                for (Direction dir : Direction.values()) {
-                    int dirX = (width + x + dir.getDeltaX()) % width;
-                    int dirY = (height + y + dir.getDeltaY()) % height;
-                    Square neighbour = grid[dirX][dirY];
-                    square.link(neighbour, dir);
-                }
+                createGrid(grid, width, height, x, y);
             }
         }
-
         return board;
+    }
+
+    private void createGrid(Square[][] grid, int width, int height, int x, int y) {
+        Square square = grid[x][y];
+        for (Direction dir : Direction.values()) {
+            int dirX = (width + x + dir.getDeltaX()) % width;
+            int dirY = (height + y + dir.getDeltaY()) % height;
+            Square neighbour = grid[dirX][dirY];
+            square.link(neighbour, dir);
+        }
     }
 
     /**

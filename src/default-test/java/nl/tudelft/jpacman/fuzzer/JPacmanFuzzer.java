@@ -17,7 +17,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.Random;
+import java.security.SecureRandom;
 
 /**
  * A basic fuzzer trying out random moves and writing logs in output files. Number of runs is a
@@ -60,11 +60,9 @@ class JPacmanFuzzer {
 
     /**
      * Quit the user interface when we're done.
-     *
-     * @throws IOException when log writer cannot be closed.
      */
     @AfterEach
-    void tearDown() throws IOException {
+    void tearDown() {
         launcher.dispose();
     }
 
@@ -106,7 +104,7 @@ class JPacmanFuzzer {
     }
 
     private Direction getRandomDirection() {
-        return Direction.values()[new Random().nextInt(Direction.values().length)];
+        return Direction.values()[new SecureRandom().nextInt(Direction.values().length)];
     }
 
     private void log(BufferedWriter logWriter, Direction chosen) throws IOException {

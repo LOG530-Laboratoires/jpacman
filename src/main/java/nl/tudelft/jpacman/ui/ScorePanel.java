@@ -63,14 +63,14 @@ public class ScorePanel extends JPanel {
      *            The players to display the scores of.
      */
     private Map<Player, JLabel> scoreLabel(List<Player> players) {
-        final Map<Player, JLabel> scoreLabels;
-        scoreLabels = new LinkedHashMap<>();
+        final Map<Player, JLabel> score;
+        score = new LinkedHashMap<>();
         for (Player player : players) {
             JLabel scoreLabel = new JLabel("0", JLabel.CENTER);
-            scoreLabels.put(player, scoreLabel);
+            score.put(player, scoreLabel);
             add(scoreLabel);
         }
-        return scoreLabels;
+        return score;
     }
 
     /**
