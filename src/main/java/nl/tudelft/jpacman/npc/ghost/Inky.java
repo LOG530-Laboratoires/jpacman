@@ -53,32 +53,6 @@ public class Inky extends Ghost {
         super(spriteMap, MOVE_INTERVAL, INTERVAL_VARIATION);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * <p>
-     * Inky has the most complicated AI of all. Inky considers two things: Blinky's
-     * location, and the location two grid spaces ahead of Pac-Man. Inky
-     * draws a line from Blinky to the spot that is two squares in front of
-     * Pac-Man and extends that line twice as far. Therefore, if Inky is
-     * alongside Blinky when they are behind Pac-Man, Inky will usually
-     * follow Blinky the whole time. But if Inky is in front of Pac-Man when
-     * Blinky is far behind him, Inky tends to want to move away from Pac-Man
-     * (in reality, to a point very far ahead of Pac-Man). Inky is affected
-     * by a similar targeting bug that affects Speedy. When Pac-Man is moving or
-     * facing up, the spot Inky uses to draw the line is two squares above
-     * and left of Pac-Man.
-     * </p>
-     *
-     * <p>
-     * <b>Implementation:</b>
-     * To actually implement this in jpacman we have the following approximation:
-     * first determine the square of Blinky (A) and the square 2
-     * squares away from Pac-Man (B). Then determine the shortest path from A to
-     * B regardless of terrain and walk that same path from B. This is the
-     * destination.
-     * </p>
-     */
     @Override
     public Optional<Direction> nextAiMove() {
         assert hasSquare();
@@ -118,27 +92,5 @@ public class Inky extends Ghost {
         }
 
         return destination;
-    }
-
-    /**
-     * Determines a possible move in a random direction.
-     *
-     * @return A direction in which the ghost can move, or <code>null</code> if
-     * the ghost is shut in by inaccessible squares.
-     */
-    @Override
-    protected Direction randomMove() {
-        Square square = getSquare();
-        List<Direction> directions = new ArrayList<>();
-        for (Direction direction : Direction.values()) {
-            if (square.getSquareAt(direction).isAccessibleTo(this)) {
-                directions.add(direction);
-            }
-        }
-        if (directions.isEmpty()) {
-            return null;
-        }
-        int i = new Random().nextInt(directions.size());
-        return directions.get(i);
     }
 }

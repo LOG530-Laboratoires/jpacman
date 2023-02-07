@@ -23,8 +23,7 @@ import java.util.*;
  * his name is Oikake/Akabei.
  * </p>
  * <p>
- * <b>AI:</b> When the ghosts are not patrolling in their home corners (Blinky:
- * top-right, Pinky: top-left, Inky: bottom-right, Clyde: bottom-left), Blinky
+ * <b>AI:</b> When the ghosts are not patrolling in their home corners, Blinky
  * will attempt to shorten the distance between Pac-Man and himself. If he has
  * to choose between shortening the horizontal or vertical distance, he will
  * choose to shorten whichever is greatest. For example, if Pac-Man is four grid
@@ -57,31 +56,21 @@ public class Blinky extends Ghost {
      * @param spriteMap
      *            The sprites for this ghost.
      */
-    // TODO Blinky should speed up when there are a few pellets left, but he
-    // has no way to find out how many there are.
     public Blinky(Map<Direction, Sprite> spriteMap) {
         super(spriteMap, MOVE_INTERVAL, INTERVAL_VARIATION);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * <p>
-     * When the ghosts are not patrolling in their home corners (Blinky:
-     * top-right, Pinky: top-left, Inky: bottom-right, Clyde: bottom-left),
-     * Blinky will attempt to shorten the distance between Pac-Man and himself.
-     * If he has to choose between shortening the horizontal or vertical
-     * distance, he will choose to shorten whichever is greatest. For example,
-     * if Pac-Man is four grid spaces to the left, and seven grid spaces above
-     * Blinky, he'll try to move up towards Pac-Man before he moves to the left.
-     * </p>
-     */
     @Override
     public Optional<Direction> nextAiMove() {
-        assert hasSquare();
+        if (hasSquare()) {
 
-        // TODO Blinky should patrol his corner every once in a while
-        // TODO Implement his actual behaviour instead of simply chasing.
+            Optional<Direction> empty = findNearestAndShortest();
+            if (empty != null) return empty;
+        }
+        return Optional.empty();
+    }
+
+    private Optional<Direction> findNearestAndShortest() {
         Unit nearest = Navigation.findNearest(Player.class, getSquare());
         if (nearest == null) {
             return Optional.empty();
@@ -93,28 +82,6 @@ public class Blinky extends Ghost {
         if (path != null && !path.isEmpty()) {
             return Optional.ofNullable(path.get(0));
         }
-        return Optional.empty();
-    }
-
-    /**
-     * Determines a possible move in a random direction.
-     *
-     * @return A direction in which the ghost can move, or <code>null</code> if
-     * the ghost is shut in by inaccessible squares.
-     */
-    @Override
-    protected Direction randomMove() {
-        Square square = getSquare();
-        List<Direction> directions = new ArrayList<>();
-        for (Direction direction : Direction.values()) {
-            if (square.getSquareAt(direction).isAccessibleTo(this)) {
-                directions.add(direction);
-            }
-        }
-        if (directions.isEmpty()) {
-            return null;
-        }
-        int i = new Random().nextInt(directions.size());
-        return directions.get(i);
+        return null;
     }
 }

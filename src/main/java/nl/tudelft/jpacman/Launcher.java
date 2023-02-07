@@ -22,7 +22,6 @@ import java.util.List;
  * 
  * @author Jeroen Roosen
  */
-@SuppressWarnings("PMD.TooManyMethods")
 public class Launcher {
 
     private static final PacManSprites SPRITE_STORE = new PacManSprites();
@@ -48,18 +47,6 @@ public class Launcher {
      */
     protected String getLevelMap() {
         return levelMap;
-    }
-
-    /**
-     * Set the name of the file containing this level's map.
-     *
-     * @param fileName
-     *            Map to be used.
-     * @return Level corresponding to the given map.
-     */
-    public Launcher withMapFile(String fileName) {
-        levelMap = fileName;
-        return this;
     }
 
     /**

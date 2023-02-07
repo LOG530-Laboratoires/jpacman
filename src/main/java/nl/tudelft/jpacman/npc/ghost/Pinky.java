@@ -71,20 +71,6 @@ public class Pinky extends Ghost {
         super(spriteMap, MOVE_INTERVAL, INTERVAL_VARIATION);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * <p>
-     * When the ghosts are not patrolling their home corners, Pinky wants to go
-     * to the place that is four grid spaces ahead of Pac-Man in the direction
-     * that Pac-Man is facing. If Pac-Man is facing down, Pinky wants to go to
-     * the location exactly four spaces below Pac-Man. Moving towards this place
-     * uses the same logic that Blinky uses to find Pac-Man's exact location.
-     * Pinky is affected by a targeting bug if Pac-Man is facing up - when he
-     * moves or faces up, Pinky tries moving towards a point up, and left, four
-     * spaces.
-     * </p>
-     */
     @Override
     public Optional<Direction> nextAiMove() {
         assert hasSquare();
@@ -101,27 +87,5 @@ public class Pinky extends Ghost {
             return Optional.ofNullable(path.get(0));
         }
         return Optional.empty();
-    }
-
-    /**
-     * Determines a possible move in a random direction.
-     *
-     * @return A direction in which the ghost can move, or <code>null</code> if
-     * the ghost is shut in by inaccessible squares.
-     */
-    @Override
-    protected Direction randomMove() {
-        Square square = getSquare();
-        List<Direction> directions = new ArrayList<>();
-        for (Direction direction : Direction.values()) {
-            if (square.getSquareAt(direction).isAccessibleTo(this)) {
-                directions.add(direction);
-            }
-        }
-        if (directions.isEmpty()) {
-            return null;
-        }
-        int i = new Random().nextInt(directions.size());
-        return directions.get(i);
     }
 }

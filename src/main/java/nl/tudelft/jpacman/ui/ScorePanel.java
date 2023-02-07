@@ -41,7 +41,7 @@ public class ScorePanel extends JPanel {
     private ScoreFormatter scoreFormatter = DEFAULT_SCORE_FORMATTER;
 
     /**
-     * Creates a new score panel with a column for each player.
+     * Creates a new score and name panel with a column for each player.
      *
      * @param players
      *            The players to display the scores of.
@@ -52,14 +52,36 @@ public class ScorePanel extends JPanel {
 
         setLayout(new GridLayout(2, players.size()));
 
-        for (int i = 1; i <= players.size(); i++) {
-            add(new JLabel("Player " + i, JLabel.CENTER));
-        }
+        playerNameLabel(players);
+        scoreLabels = scoreLabel(players);
+    }
+
+    /**
+     * Creates a new score panel with a column for each player.
+     *
+     * @param players
+     *            The players to display the scores of.
+     */
+    private Map<Player, JLabel> scoreLabel(List<Player> players) {
+        final Map<Player, JLabel> scoreLabels;
         scoreLabels = new LinkedHashMap<>();
         for (Player player : players) {
             JLabel scoreLabel = new JLabel("0", JLabel.CENTER);
             scoreLabels.put(player, scoreLabel);
             add(scoreLabel);
+        }
+        return scoreLabels;
+    }
+
+    /**
+     * Creates a new name panel for each player.
+     *
+     * @param players
+     *            The players to display the scores of.
+     */
+    private void playerNameLabel(List<Player> players) {
+        for (int i = 1; i <= players.size(); i++) {
+            add(new JLabel("Player " + i, JLabel.CENTER));
         }
     }
 
@@ -69,15 +91,22 @@ public class ScorePanel extends JPanel {
     protected void refresh() {
         for (Map.Entry<Player, JLabel> entry : scoreLabels.entrySet()) {
             Player player = entry.getKey();
-            String score = "";
-            if (!player.isAlive()) {
-                score = "You died. ";
-            } else {
-                score = "Lives: " + player.getLives() + " ";
-            }
-            score += scoreFormatter.format(player);
-            entry.getValue().setText(score);
+            playerScore(entry, player);
         }
+    }
+
+    /**
+     * Print the scores of the players.
+     */
+    private void playerScore(Map.Entry<Player, JLabel> entry, Player player) {
+        String score = "";
+        if (!player.isAlive()) {
+            score = "You died. ";
+        } else {
+            score = "Lives: " + player.getLives() + " ";
+        }
+        score += scoreFormatter.format(player);
+        entry.getValue().setText(score);
     }
 
     /**

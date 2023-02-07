@@ -1,12 +1,11 @@
 package nl.tudelft.jpacman.npc;
 
 import nl.tudelft.jpacman.board.Direction;
+import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.sprite.Sprite;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 /**
  * A non-player unit.
@@ -77,23 +76,22 @@ public abstract class Ghost extends Unit {
         return this.moveInterval + new Random().nextInt(this.intervalVariation);
     }
 
-
-
     /**
      * Determines a possible move in a random direction.
      *
      * @return A direction in which the ghost can move, or <code>null</code> if
      * the ghost is shut in by inaccessible squares.
      */
-     protected abstract Direction randomMove();
+    protected Direction randomMove() {
+        List<Direction> directions = getDirections();
+        if (directions.isEmpty()) {
+            return null;
+        }
+        int i = new Random().nextInt(directions.size());
+        return directions.get(i);
+    }
 
-    /**
-     * Determines a possible move in a random direction.
-     *
-     * @return A direction in which the ghost can move, or <code>null</code> if
-     * the ghost is shut in by inaccessible squares.
-     */
-    /*protected Direction randomMove() {
+    private List<Direction> getDirections() {
         Square square = getSquare();
         List<Direction> directions = new ArrayList<>();
         for (Direction direction : Direction.values()) {
@@ -101,10 +99,6 @@ public abstract class Ghost extends Unit {
                 directions.add(direction);
             }
         }
-        if (directions.isEmpty()) {
-            return null;
-        }
-        int i = new Random().nextInt(directions.size());
-        return directions.get(i);
-    }*/
+        return directions;
+    }
 }
