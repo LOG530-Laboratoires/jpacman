@@ -10,6 +10,7 @@ import nl.tudelft.jpacman.points.PointCalculator;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.sprite.Sprite;
 
+import java.security.SecureRandom;
 import java.util.*;
 
 /**
@@ -164,7 +165,7 @@ public class LevelFactory {
             if (directions.isEmpty()) {
                 return null;
             }
-            int i = new Random().nextInt(directions.size());
+            int i = new SecureRandom().nextInt(directions.size());
             return directions.get(i);
         }
     }
